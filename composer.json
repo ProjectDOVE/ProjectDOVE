@@ -1,0 +1,25 @@
+{
+  "name": "dove/dove",
+  "description": "project dove",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Vitalij Mik",
+      "email": "vitalij@blackscorp.de"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Dove\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "Dove\\Test\\": "tests/"
+  },
+  "require": {
+    "php": ">=5.5",
+    "ext-intl": "1.*",
+    "ext-pdo_mysql": "1.*"
+  }
+}

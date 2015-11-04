@@ -1,0 +1,36 @@
+{{% BLOCKS }}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{$ title }}DOVE{{/ title }}</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    {{$ stylesheets }}
+
+    {{/ stylesheets }}
+  </head>
+  <body>
+
+    <header class="jumbotron">
+     <div class="container">
+      {{$ header }}
+        <h1>DOVE</h1>
+      {{/ header }}
+       </div>
+    </header>
+    <div id="content" class="container">
+      {{$ content }}
+        <p>Hello, World!</p>
+      {{/ content }}
+    </div>
+
+    {{$ scripts }}
+
+    {{/ scripts }}
+     <script src="/js/vendor/jquery.min.js"></script>
+   <script src="/js/vendor/bootstrap.min.js"></script>
+   <script src="/js/vendor/threejs.min.js"></script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>

@@ -1,16 +1,34 @@
 {{% BLOCKS }}
-{{< layout }}
-{{$ title }}test{{/ title }}
+{{< pageLayout }}
+{{$ title }}
+{{title}}
+{{/ title }}
 
 {{$ stylesheets }}
 
 {{/ stylesheets }}
 
 {{$ content}}
-<p>{{body}}</p>
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {{>forms/login}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                Basic panel example
+                <a href="/register" class="btn btn-default col-md-12">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
 {{/ content}}
 
 {{$ scripts }}
 
 {{/ scripts }}
-{{/ layout }}
+{{/ pageLayout }}

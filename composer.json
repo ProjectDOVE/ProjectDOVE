@@ -19,7 +19,8 @@
   },
   "require": {
     "php": ">=5.5",
-    "ext-intl": "1.*",
-    "ext-pdo_mysql": "1.*"
+    "ext-pdo_mysql": "1.*",
+    "slim/slim" :"~2",
+    "mustache/mustache":"~2"
   }
 }

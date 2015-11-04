@@ -11,9 +11,21 @@ ini_set('display_errors',1);
 
 require_once __DIR__.'/vendor/autoload.php';
 
-$app = new \Slim\Slim();
+
+$loaders = [];
+$loaders[]=new Mustache_Loader_FilesystemLoader(__DIR__.'/templates');
+$mustacheLoader = new Mustache_Loader_CascadingLoader($loaders);
+$mustache = new Mustache_Engine([
+    'loader'=>$mustacheLoader,
+    'partials_loader'=>$mustacheLoader
+]);
+
+$app = new \Slim\Slim([
+    'view'=>new \Dove\View\MustacheView($mustache)
+]);
 
 $app->get('/',function()use($app){
-   echo "Hello World";
+
+    $app->render('pages/landing',['body'=>'test']);
 });
 return $app;

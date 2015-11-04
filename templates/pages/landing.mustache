@@ -10,20 +10,21 @@
 
 {{$ content}}
 <div class="row">
-<div class="col-md-4">
-<div class="panel panel-default">
-  <div class="panel-body">
-    Basic panel example
-  </div>
-</div>
-</div>
-<div class="col-md-8">
-<div class="panel panel-default">
-  <div class="panel-body">
-    Basic panel example
-  </div>
-</div>
-</div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {{>forms/login}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                Basic panel example
+                <a href="/register" class="btn btn-default col-md-12">Register</a>
+            </div>
+        </div>
+    </div>
 </div>
 {{/ content}}
 

@@ -3,8 +3,10 @@
 <html>
   <head>
     <title>{{$ title }}My Awesome Site{{/ title }}</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
     {{$ stylesheets }}
-      <link rel="stylesheet" href="/assets/css/default.css">
+
     {{/ stylesheets }}
   </head>
   <body>
@@ -19,7 +21,11 @@
       {{/ content }}
     </div>
     {{$ scripts }}
-      <script src="/assets/js/default.js"></script>
+
     {{/ scripts }}
+     <script src="/js/vendor/jquery.min.js"></script>
+   <script src="/js/vendor/bootstrap.min.js"></script>
+   <script src="/js/vendor/threejs.min.js"></script>
+    <script src="/js/main.js"></script>
   </body>
 </html>

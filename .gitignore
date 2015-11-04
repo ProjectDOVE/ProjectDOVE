@@ -1,0 +1,4 @@
+vendor
+!web/js/vendor
+config/*
+!config/*.template.php

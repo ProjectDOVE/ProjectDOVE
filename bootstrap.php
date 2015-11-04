@@ -13,4 +13,7 @@ require_once __DIR__.'/vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
+$app->get('/',function()use($app){
+   echo "Hello World";
+});
 return $app;

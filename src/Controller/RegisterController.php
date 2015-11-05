@@ -9,19 +9,17 @@
 namespace Dove\Controller;
 
 
+use DateTime;
 use Dove\Response\RegisterResponse;
 use PDO;
+use PDOException;
 
 class RegisterController extends BaseController
 {
 
     public function __invoke(){
         $app = $this->app;
-        /**
-         * @var PDO
-         *
-         */
-        $db = $app->db;
+
 
         $response = new RegisterResponse($app->request);
         $response->title = _("Register");
@@ -53,9 +51,35 @@ class RegisterController extends BaseController
         if(!$response->acceptedTerms()){
             $response->addError(_("Accept the terms"));
         }
+
+        return !$response->hasErrors();
     }
 
     private function createUser(RegisterResponse $response)
     {
+        /**
+         * @var $db PDO
+         *
+         */
+        $db = $this->app->db;
+
+
+        $passwordHash = password_hash($response->password(),PASSWORD_DEFAULT);
+        $now = new DateTime();
+
+        $sql ="INSERT INTO users (username,password,email,registrationDate) VALUES(
+        ".$db->quote($response->username()).",
+        ".$db->quote($passwordHash).",
+        ".$db->quote($response->email()).",
+        ".$db->quote($now->format('Y-m-d H:i:s'))."
+      )";
+
+        try{
+            $db->exec($sql);
+
+        }catch (PDOException $e){
+
+            $response->addError($e->getMessage());
+        }
     }
 }

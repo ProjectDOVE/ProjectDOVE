@@ -51,5 +51,3 @@ class WebSocketServer implements MessageComponentInterface {
         $conn->close();
     }
 }
-
-?>

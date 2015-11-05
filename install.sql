@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(254) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `registrationDate` datetime NOT NULL,
-  `lastAction` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `lastAction` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
   `rememberMeToken` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`userId`),
   UNIQUE KEY `unique_username` (`username`),

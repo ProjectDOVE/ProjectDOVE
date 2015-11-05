@@ -33,17 +33,36 @@ class RegisterController extends BaseController
         return in_array($value,['',null,false]);
     }
     private function isValid(RegisterResponse $response){
+        /**
+         * @var $db PDO
+         *
+         */
+        $db = $this->app->db;
+
         if($this->isEmpty($response->username())){
             $response->addError(_("Username is empty"));
         }
+
         if(strlen($response->username()) < 3){
             $response->addError(_("Username too short"));
         }
         if(strlen($response->username()) > 40){
             $response->addError(_("Username too long"));
         }
+        $sql = "SELECT 1 FROM users WHERE username = ".$db->quote($response->username());
+        $usernameStatement = $db->query($sql);
+        $usernameExists = (bool)$usernameStatement->fetchColumn();
+        if($usernameExists){
+            $response->addError(_("Username already exists"));
+        }
         if($this->isEmpty($response->email())){
             $response->addError(_("Email is empty"));
+        }
+        $sql ="SELECT 1 FROM users WHERE email = ".$db->quote($response->email());
+        $emailStatement = $db->query($sql);
+        $emailExists = (bool) $emailStatement->fetchColumn();
+        if($emailExists){
+            $response->addError(_("Email already exists"));
         }
         if(!filter_var($response->email(),FILTER_VALIDATE_EMAIL)){
             $response->addError(_("Invalid email"));

@@ -8,6 +8,12 @@
         </ul>
     </div>
 {{/hasErrors}}
+{{#registrationSuccessful}}
+    <div class="alert alert-success" role="alert">
+        You have successfully registered. Proceed to <a href="/">Log In</a>
+    </div>
+{{/registrationSuccessful}}
+{{^registrationSuccessful}}
 <form action="/register" method="POST">
     <div class="form-group">
         <label for="username">Username</label>
@@ -28,3 +34,4 @@
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
 </form>
+{{/registrationSuccessful}}

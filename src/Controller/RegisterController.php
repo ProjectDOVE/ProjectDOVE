@@ -20,10 +20,11 @@ class RegisterController extends BaseController
     public function __invoke(){
         $app = $this->app;
 
-
         $response = new RegisterResponse($app->request);
         $response->title = _("Register");
-        if($this->isValid($response)){
+
+        //only validate if actual post data was sent
+        if($app->request->isPost() && $this->isValid($response)){
             $this->createUser($response);
         }
 
@@ -44,10 +45,10 @@ class RegisterController extends BaseController
         }
 
         if(strlen($response->username()) < 3){
-            $response->addError(_("Username too short"));
+            $response->addError(_("Username too short (min. 3 characters)"));
         }
-        if(strlen($response->username()) > 40){
-            $response->addError(_("Username too long"));
+        if(strlen($response->username()) >= 40){
+            $response->addError(_("Username too long (max. 40 characters)"));
         }
         $sql = "SELECT 1 FROM users WHERE username = ".$db->quote($response->username());
         $usernameStatement = $db->query($sql);
@@ -74,7 +75,7 @@ class RegisterController extends BaseController
             $response->addError(_("Password is empty"));
         }
         if(strlen($response->password()) < 6){
-            $response->addError(_("Password is too short"));
+            $response->addError(_("Password is too short (min. 6 characters)"));
         }
         if(!$response->acceptedTerms()){
             $response->addError(_("Accept the terms"));
@@ -104,6 +105,7 @@ class RegisterController extends BaseController
 
         try{
             $db->exec($sql);
+            $response->registrationSuccessful = true;
 
         }catch (PDOException $e){
 

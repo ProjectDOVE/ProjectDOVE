@@ -21,6 +21,7 @@
     "php": ">=5.5",
     "ext-pdo_mysql": "1.*",
     "slim/slim" :"~2",
-    "mustache/mustache":"~2"
+    "mustache/mustache":"~2",
+    "cboden/ratchet" :"~0.3"
   }
 }

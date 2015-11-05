@@ -7,6 +7,10 @@
     {
       "name": "Vitalij Mik",
       "email": "vitalij@blackscorp.de"
+    },
+    {
+      "name": "Iwan Grin",
+      "email": "iwan.grin@googlemail.com"
     }
   ],
   "autoload": {
@@ -22,6 +26,6 @@
     "ext-pdo_mysql": "1.*",
     "slim/slim" :"~2",
     "mustache/mustache":"~2",
-    "cboden/ratchet" :"~0.3"
+    "cboden/ratchet": "0.3.*"
   }
 }

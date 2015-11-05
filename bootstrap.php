@@ -53,4 +53,8 @@ $app->post('/login', function () use ($app) {
     $response = [];
     $app->render('pages/landing', $response);
 });
+$app->get('/game',function()use($app){
+
+    $app->render('pages/ingame',['body'=>'Muh']);
+});
 return $app;

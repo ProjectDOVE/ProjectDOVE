@@ -4,34 +4,34 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b1703b46178bc7e59051c1950639a1d1",
-    "content-hash": "cdd0beb5954d7f3d7075b966973ede4c",
+    "hash": "b1066d8170d7db6a20a5dc304fb42e34",
+    "content-hash": "571834e4f9f86f59a0d970906cf259e7",
     "packages": [
         {
             "name": "cboden/ratchet",
-            "version": "0.4.x-dev",
+            "version": "v0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ratchetphp/Ratchet.git",
-                "reference": "b6ec4aa90436301ee4013c01f8fb1b89caec0692"
+                "reference": "6b247c05251b4b5cbd14243366b649f99a0e5681"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ratchetphp/Ratchet/zipball/b6ec4aa90436301ee4013c01f8fb1b89caec0692",
-                "reference": "b6ec4aa90436301ee4013c01f8fb1b89caec0692",
+                "url": "https://api.github.com/repos/ratchetphp/Ratchet/zipball/6b247c05251b4b5cbd14243366b649f99a0e5681",
+                "reference": "6b247c05251b4b5cbd14243366b649f99a0e5681",
                 "shasum": ""
             },
             "require": {
-                "guzzle/http": "~3.6",
+                "guzzle/http": "^3.6",
                 "php": ">=5.3.9",
-                "react/socket": "0.3.*|0.4.*",
-                "symfony/http-foundation": "~2.2",
-                "symfony/routing": "~2.2"
+                "react/socket": "^0.3 || ^0.4",
+                "symfony/http-foundation": "^2.2",
+                "symfony/routing": "^2.2"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Ratchet": "src"
+                "psr-4": {
+                    "Ratchet\\": "src/Ratchet"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -42,7 +42,6 @@
                 {
                     "name": "Chris Boden",
                     "email": "cboden@gmail.com",
-                    "homepage": "http://res.im",
                     "role": "Developer"
                 }
             ],
@@ -54,7 +53,7 @@
                 "server",
                 "sockets"
             ],
-            "time": "2014-06-08 15:45:43"
+            "time": "2015-05-27 12:51:05"
         },
         {
             "name": "evenement/evenement",

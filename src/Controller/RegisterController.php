@@ -55,6 +55,8 @@ class RegisterController extends BaseController
         if($usernameExists){
             $response->addError(_("Username already exists"));
         }
+
+
         if($this->isEmpty($response->email())){
             $response->addError(_("Email is empty"));
         }
@@ -66,6 +68,13 @@ class RegisterController extends BaseController
         }
         if(!filter_var($response->email(),FILTER_VALIDATE_EMAIL)){
             $response->addError(_("Invalid email"));
+        }
+
+        if($this->isEmpty($response->password())){
+            $response->addError(_("Password is empty"));
+        }
+        if(strlen($response->password()) < 6){
+            $response->addError(_("Password is too short"));
         }
         if(!$response->acceptedTerms()){
             $response->addError(_("Accept the terms"));

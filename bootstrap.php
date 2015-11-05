@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+use Dove\Response\RegisterResponse;
+
 error_reporting(-1);
 ini_set('display_errors', 1);
 
@@ -53,6 +55,15 @@ $app->post('/login', function () use ($app) {
     $response = [];
     $app->render('pages/landing', $response);
 });
+
+$app->map('/register',function() use($app){
+
+    $response = new RegisterResponse($app->request);
+    $response->title = _("Register");
+
+    $app->render('pages/register',$response);
+})->via('GET','POST');
+
 $app->get('/game',function()use($app){
 
     $app->render('pages/ingame',['body'=>'Muh']);

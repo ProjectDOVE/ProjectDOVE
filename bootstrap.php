@@ -6,6 +6,7 @@
  * file that was distributed with this source code.
  */
 
+use Dove\Controller\RegisterController;
 use Dove\Response\RegisterResponse;
 
 error_reporting(-1);
@@ -56,16 +57,10 @@ $app->post('/login', function () use ($app) {
     $app->render('pages/landing', $response);
 });
 
-$app->map('/register',function() use($app){
+$app->map('/register', new RegisterController($app))->via('GET', 'POST');
 
-    $response = new RegisterResponse($app->request);
-    $response->title = _("Register");
+$app->get('/game', function () use ($app) {
 
-    $app->render('pages/register',$response);
-})->via('GET','POST');
-
-$app->get('/game',function()use($app){
-
-    $app->render('pages/ingame',['body'=>'Muh']);
+    $app->render('pages/ingame', ['body' => 'Muh']);
 });
 return $app;

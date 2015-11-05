@@ -21,5 +21,11 @@ abstract class BaseResponse
     {
         $this->request = $request;
     }
-
+    public function addError($error)
+    {
+        $this->errors[]=$error;
+    }
+    public function hasErrors(){
+        return count($this->errors) > 0;
+    }
 }

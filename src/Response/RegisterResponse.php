@@ -23,4 +23,6 @@ class RegisterResponse extends BaseResponse
     public function acceptedTerms(){
         return $this->request->post('acceptedTerms') === 'on';
     }
+
+
 }

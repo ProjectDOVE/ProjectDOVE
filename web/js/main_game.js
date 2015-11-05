@@ -8,13 +8,13 @@
 requirejs.config({
     //By default load any module IDs from js/vendor
     baseUrl: "js/vendor",
-    //except, if the module ID starts with "page",
-    //load it from the js/page directory. paths
+    //except, if the module ID starts with "game",
+    //load it from the js/game directory. paths
     //config is relative to the baseUrl, and
     //never includes a ".js" extension since
     //the paths config could be for a directory.
     paths: {
-        page: "../page",
+        game: "../game",
         jquery: "jquery.min"
     },
     // Add this map config in addition to any baseUrl or
@@ -31,4 +31,8 @@ requirejs.config({
     }
 });
 
-//Do stuff that needs to be done outside of the game here
+requirejs(["game/chat", "game/websocket"], function(chat, ws) {
+
+    chat.start();
+}
+);

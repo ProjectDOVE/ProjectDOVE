@@ -12,7 +12,7 @@
   <body>
     <header>
       {{$ header }}
-        <h1>Welcome to My Awesome Site</h1>
+        <h1>You are now in the game</h1>
       {{/ header }}
     </header>
     <div id="content">
@@ -23,9 +23,6 @@
     {{$ scripts }}
 
     {{/ scripts }}
-     <script src="/js/vendor/jquery.min.js"></script>
-   <script src="/js/vendor/bootstrap.min.js"></script>
-   <script src="/js/vendor/threejs.min.js"></script>
-    <script src="/js/main.js"></script>
+        <script data-main="/js/main_game" src="/js/vendor/require.min.js"></script>
   </body>
 </html>

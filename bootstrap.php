@@ -20,7 +20,7 @@ ini_set('display_errors', 1);
 session_start();
 require_once __DIR__ . '/vendor/autoload.php';
 
-
+$_SESSION['userId'] = 1;
 $loaders = [];
 $loaders[] = new Mustache_Loader_FilesystemLoader(__DIR__ . '/templates');
 $mustacheLoader = new Mustache_Loader_CascadingLoader($loaders);

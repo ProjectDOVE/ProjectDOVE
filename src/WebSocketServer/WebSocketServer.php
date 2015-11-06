@@ -8,6 +8,8 @@
 
 namespace Dove\WebSocketServer;
 
+use Dove\Helpers\Session;
+use Guzzle\Http\Message\EntityEnclosingRequest;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
@@ -26,6 +28,19 @@ class WebSocketServer implements MessageComponentInterface
     {
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
+        /**
+         * @var $request EntityEnclosingRequest
+         */
+        $request = $conn->WebSocket->request;
+        $sessionFile = ini_get('session.save_path') . '/sess_' . $request->getCookie(session_name());
+        $_SESSION = '';
+        if (is_file($sessionFile)) {
+            $sessionFileData = file_get_contents($sessionFile);
+            $_SESSION = Session::unserialize($sessionFileData);
+
+
+            var_dump($_SESSION);
+        }
 
         echo "New connection! ({$conn->resourceId})\n";
     }

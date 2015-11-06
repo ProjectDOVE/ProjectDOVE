@@ -12,7 +12,7 @@ class Password {
     
     /**
      * @access  private
-     * @var     string      The used hashing algorithm
+     * @var     int         The used hashing algorithm
      */
     private $algo = PASSWORD_DEFAULT;
     

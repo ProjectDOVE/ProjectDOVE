@@ -19,6 +19,7 @@ $loaders = [];
 $loaders[] = new Mustache_Loader_FilesystemLoader(__DIR__ . '/templates');
 $mustacheLoader = new Mustache_Loader_CascadingLoader($loaders);
 $mustache = new Mustache_Engine([
+    'cache' => '/tmp/mustache',
     'loader' => $mustacheLoader,
     'partials_loader' => $mustacheLoader
 ]);

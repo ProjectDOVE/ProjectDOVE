@@ -14,7 +14,7 @@ class Password {
      * @access  private
      * @var     string      The used hashing algorithm
      */
-    private function $algo = PASSWORD_DEFAULT;
+    private $algo = PASSWORD_DEFAULT;
     
     /**
      * @access  public

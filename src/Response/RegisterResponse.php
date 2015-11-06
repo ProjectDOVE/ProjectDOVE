@@ -11,20 +11,26 @@ namespace Dove\Response;
 class RegisterResponse extends BaseResponse
 {
 
-    public function username(){
+    public function username()
+    {
         return $this->request->post('username');
     }
-    public function password(){
+
+    public function password()
+    {
         return $this->request->post('password');
     }
-    public function email(){
+
+    public function email()
+    {
         return $this->request->post('email');
     }
-    public function acceptedTerms(){
+
+    public function acceptedTerms()
+    {
         return $this->request->post('acceptedTerms') === 'on';
     }
 
     public $registrationSuccessful = false;
-
 
 }

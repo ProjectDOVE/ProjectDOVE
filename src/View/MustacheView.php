@@ -20,6 +20,7 @@ class MustacheView extends View
     private $mustache;
 
     private $templateData;
+
     /**
      * MustacheView constructor.
      * @param $mustache
@@ -30,11 +31,13 @@ class MustacheView extends View
         parent::__construct();
     }
 
-    protected function render($template,$data = null)
+    protected function render($template, $data = null)
     {
-        return $this->mustache->render($template,$this->templateData);
+        return $this->mustache->render($template, $this->templateData);
     }
-    public function appendData($data){
+
+    public function appendData($data)
+    {
         $this->templateData = $data;
     }
 }

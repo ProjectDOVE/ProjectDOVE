@@ -17,15 +17,19 @@ abstract class BaseResponse
     public $title;
     public $errors = [];
     public $messages = [];
+
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
+
     public function addError($error)
     {
-        $this->errors[]=$error;
+        $this->errors[] = $error;
     }
-    public function hasErrors(){
+
+    public function hasErrors()
+    {
         return count($this->errors) > 0;
     }
 }

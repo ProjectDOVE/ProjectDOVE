@@ -15,15 +15,17 @@ class LoginResponse extends BaseResponse
      * @access  public
      * @return  string  $username   The login name
      */
-    public function username() {
+    public function username()
+    {
         return $this->request->post('username');
     }
-    
+
     /**
      * @access  public
      * @return  string  $password   The raw password
      */
-    public function password() {
+    public function password()
+    {
         return $this->request->post('password');
     }
 }

@@ -7,7 +7,7 @@
  */
 
 use Dove\Controller\RegisterController;
-use Dove\Response\RegisterResponse;
+
 
 error_reporting(-1);
 ini_set('display_errors', 1);
@@ -61,6 +61,6 @@ $app->map('/register', new RegisterController($app))->via('GET', 'POST');
 
 $app->get('/game', function () use ($app) {
     $wsConfig = $app->config('websocket');
-    $app->render('pages/ingame', ['body' => 'Muh', "websocket" => $wsConfig["server"].":".$wsConfig["port"] ]);
+    $app->render('pages/ingame', ['body' => 'Muh', "websocket" => $wsConfig["server"] . ":" . $wsConfig["port"]]);
 });
 return $app;

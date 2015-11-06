@@ -10,5 +10,6 @@ return [
         'server' => "ws://localhost",
         'port' => 8888
     ],
-    'mustache.cache' => null
+    'mustache.cache' => null,
+    'password_algo' => PASSWORD_DEFAULT
 ];

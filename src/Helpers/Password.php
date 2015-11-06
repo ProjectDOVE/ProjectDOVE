@@ -18,10 +18,10 @@ class Password {
     
     /**
      * @access  public
-     * @param   string|null $algo   Optional parameter to change the default hashing algo
+     * @param   int|null $algo   Optional parameter to change the default hashing algo
      */
     public function __construct($algo = null) {
-        if (is_string($algo)) {
+        if (is_int($algo)) {
             $this->algo = $algo;
         }
 

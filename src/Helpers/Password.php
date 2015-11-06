@@ -1,6 +1,6 @@
 <?php
 
-namespace Dove\Library;
+namespace Dove\Helpers;
 
 /**
  * This file is part of the ProjectDOVE.

@@ -6,32 +6,38 @@
  * file that was distributed with this source code.
  */
 
+use Dove\Controller\GameController;
 use Dove\Controller\RegisterController;
+use Dove\EventSubscriber\AfterEventSubscriber;
+use Dove\EventSubscriber\BeforeEventSubscriber;
+use Dove\View\MustacheView;
 
 
 error_reporting(-1);
 ini_set('display_errors', 1);
-
+session_start();
 require_once __DIR__ . '/vendor/autoload.php';
 
 
 $loaders = [];
 $loaders[] = new Mustache_Loader_FilesystemLoader(__DIR__ . '/templates');
 $mustacheLoader = new Mustache_Loader_CascadingLoader($loaders);
-$mustache = new Mustache_Engine([
-    'cache' => '/tmp/mustache',
-    'loader' => $mustacheLoader,
-    'partials_loader' => $mustacheLoader
-]);
 
 
-$app = new \Slim\Slim([
-    'view' => new \Dove\View\MustacheView($mustache)
-]);
+
+$app = new \Slim\Slim();
 $app->config(array_merge(
     require_once __DIR__ . '/config/database.php',
     require_once __DIR__ . '/config/general.php'
 ));
+
+$mustache = new Mustache_Engine([
+    'cache' => $app->config('mustache.cache'),
+    'loader' => $mustacheLoader,
+    'partials_loader' => $mustacheLoader
+]);
+
+$app->view(new MustacheView($mustache));
 
 $app->container->singleton('db', function () use ($app) {
     $dbConfig = $app->config('db');
@@ -43,6 +49,8 @@ $app->container->singleton('db', function () use ($app) {
 });
 
 
+$app->hook('slim.before.dispatch', new BeforeEventSubscriber($app));
+$app->hook('slim.after.dispatch', new AfterEventSubscriber($app));
 $app->get('/', function () use ($app) {
 
     $app->render('pages/landing', ['body' => 'test']);
@@ -60,8 +68,5 @@ $app->post('/login', function () use ($app) {
 
 $app->map('/register', new RegisterController($app))->via('GET', 'POST');
 
-$app->get('/game', function () use ($app) {
-    $wsConfig = $app->config('websocket');
-    $app->render('pages/ingame', ['body' => 'Muh', "websocket" => $wsConfig["server"] . ":" . $wsConfig["port"]]);
-});
+$app->get('/game',new GameController($app));
 return $app;

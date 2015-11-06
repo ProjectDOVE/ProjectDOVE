@@ -9,5 +9,6 @@ return [
     'websocket' => [
         'server' => "ws://localhost",
         'port' => 8888
-    ]
+    ],
+    'mustache.cache' => null
 ];

@@ -9,16 +9,29 @@
 namespace Dove\Controller;
 
 
+use PDO;
+
 class AuthenticateController extends BaseController
 {
     public function before()
     {
-        var_dump("before");
+        if (!isset($_SESSION['userId'])) {
+            $this->app->redirect('/');
+        }
     }
 
     public function after()
     {
-        var_dump("after");
+        if (!isset($_SESSION['userId'])) {
+            return;
+        }
+
+        /**
+         * @var $db PDO
+         */
+        $db = $this->app->db;
+        $sql ="UPDATE users SET lastAction = NOW() WHERE userId = ".(int)$_SESSION['userId'];
+        $db->exec($sql);
     }
 
 }

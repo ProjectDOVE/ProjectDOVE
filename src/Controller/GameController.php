@@ -11,8 +11,9 @@ namespace Dove\Controller;
 
 class GameController extends AuthenticateController
 {
-    public function __invoke(){
-        var_dump("invoke");
+    public function __invoke()
+    {
+
         $app = $this->app;
         $wsConfig = $app->config('websocket');
         $app->render('pages/ingame', ['body' => 'Muh', "websocket" => $wsConfig["server"] . ":" . $wsConfig["port"]]);

@@ -9,6 +9,7 @@
 namespace Dove\Controller;
 
 
+use Dove\Repository\UserRepository;
 use PDO;
 
 class AuthenticateController extends BaseController

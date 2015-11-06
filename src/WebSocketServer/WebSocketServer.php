@@ -39,7 +39,7 @@ class WebSocketServer implements MessageComponentInterface
             $_SESSION = Session::unserialize($sessionFileData);
 
 
-            var_dump($_SESSION);
+            var_dump($_SESSION['userId']);
         }
 
         echo "New connection! ({$conn->resourceId})\n";

@@ -12,15 +12,20 @@ use Ratchet\WebSocket\WsServer;
 use Dove\WebSocketServer;
 
 
-$app = require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
+
+$config = array_merge(
+    require_once __DIR__ . '/../config/database.php',
+    require_once __DIR__ . '/../config/general.php'
+);
 
 $server = IoServer::factory(
     new HttpServer(
         new WsServer(
-            new \Dove\WebSocketServer\WebSocketServer()
+            new \Dove\WebSocketServer\WebSocketServer($config)
         )
     ),
-    8080
+    $config["websocket"]["port"]
 );
 
 $server->run();

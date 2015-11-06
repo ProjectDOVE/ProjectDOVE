@@ -60,7 +60,7 @@ $app->post('/login', function () use ($app) {
 $app->map('/register', new RegisterController($app))->via('GET', 'POST');
 
 $app->get('/game', function () use ($app) {
-
-    $app->render('pages/ingame', ['body' => 'Muh']);
+    $wsConfig = $app->config('websocket');
+    $app->render('pages/ingame', ['body' => 'Muh', "websocket" => $wsConfig["server"].":".$wsConfig["port"] ]);
 });
 return $app;

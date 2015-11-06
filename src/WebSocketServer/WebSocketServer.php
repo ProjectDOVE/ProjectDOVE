@@ -13,9 +13,11 @@ use Ratchet\ConnectionInterface;
 
 class WebSocketServer implements MessageComponentInterface {
     protected $clients;
+    private $config;
 
-    public function __construct() {
+    public function __construct($config) {
         $this->clients = new \SplObjectStorage;
+        $this->config = $config;
     }
 
     public function onOpen(ConnectionInterface $conn) {

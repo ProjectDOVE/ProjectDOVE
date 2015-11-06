@@ -9,13 +9,15 @@ define(["jquery", "game/websocket"], function ($, ws) {
     function doSomething() { console.log("OPEN") }
 
     var start = function() {
+        var websocketPath = $("body").data("websocketPath");
+
 
         ws.on("open", doSomething);
         ws.on("close", function(e){ console.log("connection closed", e);});
 
         ws.on("message", "string", function(e){ console.log("Chat says:", e.data); });
 
-        ws.set("path", "ws://localhost:8080");
+        ws.set("path", websocketPath);
         ws.connect();
 
         setTimeout(function() {

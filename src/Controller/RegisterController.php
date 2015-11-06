@@ -110,8 +110,7 @@ class RegisterController extends BaseController
 
         try {
             $db->exec($sql);
-            $response->registrationSuccessful = true;
-
+            $response->addMessage(_('You have successfully registered. Proceed to <a href="/">Log In</a>'));
         } catch (PDOException $e) {
 
             $response->addError($e->getMessage());

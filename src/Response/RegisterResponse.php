@@ -31,6 +31,4 @@ class RegisterResponse extends BaseResponse
         return $this->request->post('acceptedTerms') === 'on';
     }
 
-    public $registrationSuccessful = false;
-
 }

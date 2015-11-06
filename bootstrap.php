@@ -7,6 +7,8 @@
  */
 
 use Dove\Controller\GameController;
+use Dove\Controller\LandingPageController;
+use Dove\Controller\LoginController;
 use Dove\Controller\RegisterController;
 use Dove\EventSubscriber\AfterEventSubscriber;
 use Dove\EventSubscriber\BeforeEventSubscriber;
@@ -22,7 +24,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 $loaders = [];
 $loaders[] = new Mustache_Loader_FilesystemLoader(__DIR__ . '/templates');
 $mustacheLoader = new Mustache_Loader_CascadingLoader($loaders);
-
 
 
 $app = new \Slim\Slim();
@@ -48,25 +49,17 @@ $app->container->singleton('db', function () use ($app) {
     return $pdo;
 });
 
-
 $app->hook('slim.before.dispatch', new BeforeEventSubscriber($app));
+
 $app->hook('slim.after.dispatch', new AfterEventSubscriber($app));
-$app->get('/', function () use ($app) {
 
-    $app->render('pages/landing', ['body' => 'test']);
-});
+$app->get('/', new LandingPageController($app));
 
-$app->post('/login', function () use ($app) {
-    /**
-     * @var $db PDO
-     */
-    $db = $app->db;
-
-    $response = [];
-    $app->render('pages/landing', $response);
-});
+$app->post('/login', new LoginController($app));
 
 $app->map('/register', new RegisterController($app))->via('GET', 'POST');
 
-$app->get('/game',new GameController($app));
+$app->get('/game', new GameController($app));
+
+
 return $app;

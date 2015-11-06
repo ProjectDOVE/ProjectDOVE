@@ -28,18 +28,10 @@ class AfterEventSubscriber
 
     public function __invoke()
     {
-
-        /**
-         * @var $matchedRoutes Route[]
-         */
-        $matchedRoutes = $this->app->router->getMatchedRoutes($this->app->request->getMethod(), $this->app->request->getResourceUri());
-        foreach ($matchedRoutes as $route) {
-            if (method_exists($route->getCallable(), 'after')) {
-                $route->getCallable()->after();
-                return;
-            }
+        $route = $this->app->router->getCurrentRoute();
+        if (method_exists($route->getCallable(), 'after')) {
+            $route->getCallable()->after();
         }
-
     }
 
 }

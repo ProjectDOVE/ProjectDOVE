@@ -28,17 +28,10 @@ class BeforeEventSubscriber
 
     public function __invoke()
     {
-        /**
-         * @var $matchedRoutes Route[]
-         */
-        $matchedRoutes = $this->app->router->getMatchedRoutes($this->app->request->getMethod(), $this->app->request->getResourceUri());
-        foreach($matchedRoutes as $route){
-            if(method_exists($route->getCallable(),'before')){
-                $route->getCallable()->before();
-            }
-            return;
+        $route = $this->app->router->getCurrentRoute();
+        if (method_exists($route->getCallable(), 'before')) {
+            $route->getCallable()->before();
         }
-
     }
 
 }

@@ -15,7 +15,7 @@ define(["jquery", "game/websocket"], function ($, ws) {
         ws.on("open", doSomething);
         ws.on("close", function(e){ console.log("connection closed", e);});
 
-        ws.on("message", "string", function(e){ console.log("Chat says:", e.data); });
+        ws.on("message", "string", function(e){ $("#content").append("Chat says:"+ e.data+"<br />"); });
 
         ws.set("path", websocketPath);
         ws.connect();

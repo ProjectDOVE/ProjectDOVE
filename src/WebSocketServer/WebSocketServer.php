@@ -9,7 +9,6 @@
 namespace Dove\WebSocketServer;
 
 use Dove\Helpers\Session;
-use Guzzle\Http\Message\EntityEnclosingRequest;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
@@ -17,30 +16,36 @@ class WebSocketServer implements MessageComponentInterface
 {
     protected $clients;
     private $config;
+    private $loop;
 
-    public function __construct($config)
+    public function __construct($config, $loop)
     {
         $this->clients = new \SplObjectStorage;
         $this->config = $config;
+
+        $this->loop = $loop;
+        $this->loop->addPeriodicTimer(1, Array($this, "sendToAll"));
+
+    }
+
+    public function sendToAll() {
+        $sentNum = 0;
+        $messages = ["Tick", "Tock", "A new GameLoop appeared!", "Something happened!"];
+
+        foreach ($this->clients as $client) {
+            $client->send($messages[array_rand($messages, 1)]);
+            $sentNum += 1;
+        }
+        if($sentNum > 0) {
+            echo "Sent some stuff to $sentNum clients\n";
+        }
+
     }
 
     public function onOpen(ConnectionInterface $conn)
     {
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
-        /**
-         * @var $request EntityEnclosingRequest
-         */
-        $request = $conn->WebSocket->request;
-        $sessionFile = ini_get('session.save_path') . '/sess_' . $request->getCookie(session_name());
-        $_SESSION = '';
-        if (is_file($sessionFile)) {
-            $sessionFileData = file_get_contents($sessionFile);
-            $_SESSION = Session::unserialize($sessionFileData);
-
-
-            var_dump($_SESSION['userId']);
-        }
 
         echo "New connection! ({$conn->resourceId})\n";
     }

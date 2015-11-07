@@ -19,13 +19,21 @@ $config = array_merge(
     require_once __DIR__ . '/../config/general.php'
 );
 
-$server = IoServer::factory(
+$loop = React\EventLoop\Factory::create();
+
+$socket = new React\Socket\Server($loop);
+$socket->listen($config["websocket"]["port"], '0.0.0.0');
+
+
+
+$server = new IoServer(
     new HttpServer(
         new WsServer(
-            new \Dove\WebSocketServer\WebSocketServer($config)
+            new \Dove\WebSocketServer\WebSocketServer($config, $loop)
         )
     ),
-    $config["websocket"]["port"]
+    $socket,
+    $loop
 );
 
 $server->run();

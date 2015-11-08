@@ -19,7 +19,7 @@ define(["jquery", "three"], function ($, Three) {
 
     var renderer = new THREE.WebGLRenderer();
 
-
+    renderer.setClearColor( 0xbfd1e5 );
     var loader = new THREE.JSONLoader();
 var submarine = null;
     var textureLoader = new THREE.TextureLoader();

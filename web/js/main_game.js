@@ -15,24 +15,26 @@ requirejs.config({
     //the paths config could be for a directory.
     paths: {
         game: "../game",
-        jquery: "jquery.min"
+        jquery: "jquery.min",
+        three: "threejs.min"
     },
     // Add this map config in addition to any baseUrl or
     // paths config you may already have in the project.
     map: {
-      // '*' means all modules will get 'jquery-private'
-      // for their 'jquery' dependency.
-      '*': { 'jquery': 'jquery-private' },
+        // '*' means all modules will get 'jquery-private'
+        // for their 'jquery' dependency.
+        '*': {'jquery': 'jquery-private'},
 
-      // 'jquery-private' wants the real jQuery module
-      // though. If this line was not here, there would
-      // be an unresolvable cyclic dependency.
-      'jquery-private': { 'jquery': 'jquery' }
+        // 'jquery-private' wants the real jQuery module
+        // though. If this line was not here, there would
+        // be an unresolvable cyclic dependency.
+        'jquery-private': {'jquery': 'jquery'}
     }
 });
 
-requirejs(["game/chat", "game/websocket"], function(chat, ws) {
+requirejs(["game/chat", "game/websocket", "game/scene"], function (chat, ws, scene) {
 
-    chat.start();
-}
+      //  chat.start();
+        scene.render();
+    }
 );

@@ -1,28 +1,21 @@
 {{% BLOCKS }}
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{$ title }}My Awesome Site{{/ title }}</title>
+<head>
+<title>{{$ title }}My Awesome Site{{/ title }}</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
-    {{$ stylesheets }}
+{{$ stylesheets }}
+{{/ stylesheets }}
+</head>
+<body data-websocket-path="{{websocket}}">
+<div id="game">
+{{$ content }}
 
-    {{/ stylesheets }}
-  </head>
-  <body data-websocket-path="{{websocket}}">
-    <header>
-      {{$ header }}
-        <h1>You are now in the game</h1>
-      {{/ header }}
-    </header>
-    <div id="content">
-      {{$ content }}
-        <p>Hello, World!</p>
-      {{/ content }}
-    </div>
-    {{$ scripts }}
-
-    {{/ scripts }}
-        <script data-main="/js/main_game" src="/js/vendor/require.min.js"></script>
-  </body>
+{{/ content }}
+</div>
+{{$ scripts }}
+{{/ scripts }}
+<script data-main="/js/main_game" src="/js/vendor/require.min.js"></script>
+</body>
 </html>

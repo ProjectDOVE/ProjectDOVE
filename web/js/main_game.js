@@ -34,7 +34,7 @@ requirejs.config({
 
 requirejs(["game/chat", "game/websocket", "game/scene"], function (chat, ws, scene) {
 
-      //  chat.start();
-        scene.render();
+        chat.start();
+        scene.init();
     }
 );

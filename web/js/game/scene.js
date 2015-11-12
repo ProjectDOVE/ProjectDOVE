@@ -10,41 +10,55 @@ define(["jquery", "three"], function ($, Three) {
 
     var gameDiv = $('#game');
 
-    var scene = new Three.Scene();
-    scene.add( new THREE.AmbientLight( 0xcccccc ) );
+    var initialized = false;
 
-   // scene.add( new THREE.AxisHelper( 100 ) );
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    var scene, camera, renderer, loader, textureLoader;
+    var submarine;
 
+    function initialize() {
 
-    var renderer = new THREE.WebGLRenderer();
+        scene = new Three.Scene();
+        scene.add( new THREE.AmbientLight( 0xcccccc ) );
 
-    renderer.setClearColor( 0xbfd1e5 );
-    var loader = new THREE.JSONLoader();
-var submarine = null;
-    var textureLoader = new THREE.TextureLoader();
-    textureLoader.load(
-        // resource URL
-        'img/skins/submarine-uv.png',
-        // Function when resource is loaded
-        function ( texture ) {
-            // do something with the texture
-            var material = new THREE.MeshBasicMaterial({
-                map: texture
-            });
-            loader.load( "js/game/objects/submarine.json", function(geometry, materials){
-
-                submarine = new THREE.Mesh( geometry, material);
-                submarine.scale.set( 10, 10, 10 );
-
-                scene.add(submarine);
-            });
-        }
-    );
+    // scene.add( new THREE.AxisHelper( 100 ) );
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 
+        renderer = new THREE.WebGLRenderer();
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor( 0xbfd1e5 );
+        loader = new THREE.JSONLoader();
+        submarine = null;
+        textureLoader = new THREE.TextureLoader();
+        textureLoader.load(
+            // resource URL
+            'img/skins/submarine-uv.png',
+            // Function when resource is loaded
+            function ( texture ) {
+                // do something with the texture
+
+                var material = new THREE.MeshBasicMaterial({
+                    map: texture
+                });
+                loader.load( "js/game/objects/submarine2.json", function(geometry, materials){
+
+                    submarine = new THREE.Mesh( geometry, material);
+                    submarine.scale.set( 10, 10, 10 );
+
+                    scene.add(submarine);
+                    initialized = true;
+                });
+            }
+        );
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        gameDiv.append(renderer.domElement);
+
+        camera.position.z = 100;
+        camera.position.y = 10;
+
+        render();
+    }
 
 
     $(window).on('resize', function (e) {
@@ -52,23 +66,19 @@ var submarine = null;
         camera.updateProjectionMatrix();
 
         renderer.setSize(window.innerWidth, window.innerHeight);
-
-
     });
 
-    gameDiv.append(renderer.domElement);
-
-
-    camera.position.z = 100;
-    camera.position.y = 10;
 
     var render = function () {
         requestAnimationFrame(render);
+        if(initialized === false) {
+            return;
+        }
         submarine.rotation.y += 0.001;
         renderer.render(scene, camera);
     };
 
     return {
-        render: render
+        init: initialize
     }
 });

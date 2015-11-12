@@ -59,15 +59,24 @@ define(function () {
      *
      * Initializes connection, reset if connection is open already
      *
+     * @param <bool> force        force reconnect if connection is open. Default false
      */
-    function Connect() {
+    function Connect(force) {
         if(options.path === undefined) {
             throw "WebSocket Server Path not defined";
         }
+        if( force === undefined ) {
+            force = false;
+        }
 
         if(ws !== undefined && ws.readyState == WebSocket.OPEN) {
-            console.warn("WebSocket connection opened. Closing and reconnecting...");
-            ws.close();
+            if(force === true) {
+                console.warn("WebSocket connection opened. Closing and reconnecting...");
+                ws.close();
+            } else {
+                console.warn("WebSocket connection already opened.");
+                return;
+            }
         }
 
 

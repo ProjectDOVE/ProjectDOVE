@@ -13,6 +13,7 @@ use DateTime;
 use Dove\Response\RegisterResponse;
 use PDO;
 use PDOException;
+use Dove\Repository\UserRepository;
 
 class RegisterController extends BaseController
 {
@@ -95,21 +96,13 @@ class RegisterController extends BaseController
          * @var $db PDO
          *
          */
-        $db = $this->app->db;
+        $userRepository = new UserRepository( $this->app->db );
 
 
         $passwordHash = password_hash($response->password(), PASSWORD_DEFAULT);
-        $now = new DateTime();
-
-        $sql = "INSERT INTO users (username,password,email,registrationDate) VALUES(
-        " . $db->quote($response->username()) . ",
-        " . $db->quote($passwordHash) . ",
-        " . $db->quote($response->email()) . ",
-        " . $db->quote($now->format('Y-m-d H:i:s')) . "
-      )";
 
         try {
-            $db->exec($sql);
+            $userRepository->add($response->username(), $passwordHash, $response->email());
             $response->addMessage(_('You have successfully registered. Proceed to <a href="/">Log In</a>'));
         } catch (PDOException $e) {
 

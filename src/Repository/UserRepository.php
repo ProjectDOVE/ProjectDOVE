@@ -8,7 +8,7 @@
 
 namespace Dove\Repository;
 
-
+use DateTime;
 use PDO;
 
 class UserRepository
@@ -29,7 +29,7 @@ class UserRepository
 
     private function getSql()
     {
-        return "SELECT userId,username,password as passwordHash,lastAction,registrationDate
+        return "SELECT userId,username,password as passwordHash,lastAction,registrationDate, websocketTicket
                 FROM users";
 
     }
@@ -63,7 +63,7 @@ class UserRepository
     public function findById($id)
     {
         $sql = $this->getSql();
-        $sql .= " WHERE id = " .(int)$id;
+        $sql .= " WHERE userId = " .(int)$id;
 
         $userStatement = $this->connection->query($sql);
         if (!$userStatement) {
@@ -71,6 +71,28 @@ class UserRepository
         }
         $userStatement->setFetchMode(PDO::FETCH_CLASS, '\Dove\Model\UserModel');
         return $userStatement->fetch();
+
+    }
+    public function add($username, $passwordHash, $email) {
+        $now = new DateTime();
+
+        $sql = "INSERT INTO users (username,password,email,registrationDate) VALUES(
+        " . $this->connection->quote($username) . ",
+        " . $this->connection->quote($passwordHash) . ",
+        " . $this->connection->quote($email) . ",
+        " . $this->connection->quote($now->format('Y-m-d H:i:s')) . "
+        )";
+        $this->connection->exec($sql);
+    }
+
+    public function regenerateWebsocketTicket($id) {
+
+        $bytes = openssl_random_pseudo_bytes(15);
+        $newTicket = bin2hex($bytes);
+
+        $sql = "UPDATE users SET websocketTicket = " . $this->connection->quote($newTicket) . " WHERE userId = ". $this->connection->quote($id);
+
+        $this->connection->exec($sql);
 
     }
 }

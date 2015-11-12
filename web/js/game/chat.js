@@ -6,23 +6,44 @@
  */
 
 define(["jquery", "game/websocket"], function ($, ws) {
-    function doSomething() { console.log("OPEN") }
+    function scrollToBottom() {
+        var chatHeight = $("#chatMessages").height();
+        $("#chatMessagesContainer").scrollTop( chatHeight );
+    }
 
     var start = function() {
         var websocketPath = $("body").data("websocketPath");
+        var websocketUser = $("body").data("websocketUser");
+        var websocketTicket = $("body").data("websocketTicket");
+
+        //setup chat input key handler
+        $("#chatInput").on("keyup", function (e) {
+            if (e.keyCode == 13) {
+                if(!ws || ws.readyState == WebSocket.CLOSED || ws.readyState == WebSocket.CLOSING || $("#chatInput").val().trim() === "") {
+                    e.preventDefault();
+                    return;
+                }
+                ws.send(JSON.stringify({msg: $("#chatInput").val().trim()}));
+                $("#chatMessages").append(websocketUser + ": " + $("#chatInput").val().trim() + "<br />");
+                $("#chatInput").val("");
+                e.preventDefault();
+            }
+        });
 
 
-        ws.on("open", doSomething);
+        ws.on("open", function() {
+            ws.send(JSON.stringify({user: websocketUser, ticket: websocketTicket}));
+        });
         ws.on("close", function(e){ console.log("connection closed", e);});
 
-        ws.on("message", "string", function(e){ $("#content").append("Chat says:"+ e.data+"<br />"); });
+        ws.on("message", "json", function(e){
+            $("#chatMessages").append(e.json.user + ": " + e.json.message + "<br />");
+            scrollToBottom();
+        });
 
         ws.set("path", websocketPath);
         ws.connect();
 
-        setTimeout(function() {
-            ws.send("Hello Chat!");
-        }, 500);
 
     }
 

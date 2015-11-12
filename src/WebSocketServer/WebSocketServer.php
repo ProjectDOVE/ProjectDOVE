@@ -8,23 +8,27 @@
 
 namespace Dove\WebSocketServer;
 
-use Dove\Helpers\Session;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+
+use Dove\Repository\UserRepository;
+use Dove\Model\UserModel;
+use PDO;
 
 class WebSocketServer implements MessageComponentInterface
 {
     protected $clients;
     private $config;
     private $loop;
+    private $db;
 
-    public function __construct($config, $loop)
+    public function __construct($config, $loop, $db)
     {
         $this->clients = new \SplObjectStorage;
         $this->config = $config;
-
         $this->loop = $loop;
-        $this->loop->addPeriodicTimer(1, Array($this, "sendToAll"));
+        $this->db = $db;
+//         $this->loop->addPeriodicTimer(1, Array($this, "sendToAll"));
 
     }
 
@@ -52,14 +56,37 @@ class WebSocketServer implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
-        $numRecv = count($this->clients) - 1;
-        echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
+        $json = json_decode($msg, true);
+        if(is_null($json)) {
+            echo $msg."\n";
+            echo "Recieved invalid JSON from connection {$from->resourceId}\n";
+            return;
+        }
+        if(is_null($this->clients[$from])) { //user has not authenticated. only accept authentication messages
+            if(array_key_exists("user", $json) && array_key_exists("ticket", $json)) {
+                //this should be done asynchronously...
+                $userRepository = new UserRepository($this->db);
 
-        foreach ($this->clients as $client) {
-            if ($from !== $client) {
-                // The sender is not the receiver, send to each client connected
-                $client->send($msg);
+                $user = $userRepository->findByUsername($json["user"]);
+                if($user === false || $user->websocketTicket !== $json["ticket"]) {
+                    echo "Recieved invalid USER AUTH from connection {$from->resourceId}\n";
+                    $this->clients->detach($from);
+                    $from->close();
+                } else {
+                    echo "Authenticated user {$user->username} on connection {$from->resourceId}\n";
+                    $this->clients[$from] = $user;
+                }
+
+            }
+
+        } else {
+            if(array_key_exists("msg", $json)) {
+                foreach ($this->clients as $client) {
+                    if ($from !== $client) {
+                        // The sender is not the receiver, send to each client connected
+                        $client->send(json_encode(Array("user" => $this->clients[$from]->username, "message" => $json["msg"])));
+                    }
+                }
             }
         }
     }

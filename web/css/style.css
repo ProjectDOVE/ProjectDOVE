@@ -12,3 +12,23 @@
 #game canvas{
     position: absolute;
 }
+
+#chat {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    height: 200px;
+    width: 400px;
+    background: rgba(0,0,0,0.2);
+
+}
+#chatMessagesContainer {
+    width: 400px;
+    height: 180px;
+    padding: 5px;
+    overflow: auto;
+}
+#chatInput {
+    width: 400px;
+    height: 20px;
+}

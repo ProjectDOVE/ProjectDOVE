@@ -17,6 +17,7 @@ class UserModel extends BaseModel
     public $lastAction;
 
     public $registrationDate;
+    public $websocketTicket;
 
     public function convertRegistrationDate(){
          return \DateTime::createFromFormat('Y-m-d H:i:s',$this->registrationDate);
@@ -24,4 +25,5 @@ class UserModel extends BaseModel
     public function convertUserId(){
         return (int) $this->userId;
     }
+
 }

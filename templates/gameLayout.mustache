@@ -8,11 +8,17 @@
 {{$ stylesheets }}
 {{/ stylesheets }}
 </head>
-<body data-websocket-path="{{websocket}}">
+<body data-websocket-path="{{websocket}}" data-websocket-user="{{user}}" data-websocket-ticket="{{wsTicket}}">
 <div id="game">
 {{$ content }}
 
 {{/ content }}
+</div>
+<div id="chat">
+    <div id="chatMessagesContainer">
+        <div id="chatMessages"></div>
+    </div>
+    <input id="chatInput" >
 </div>
 {{$ scripts }}
 {{/ scripts }}

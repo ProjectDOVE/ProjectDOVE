@@ -13,8 +13,6 @@ use Dove\Model\UserModel;
 
 class GameController extends AuthenticateController
 {
-    private $userdata;
-
     public function __invoke()
     {
 
@@ -28,18 +26,4 @@ class GameController extends AuthenticateController
         ]);
     }
 
-    public function before()
-    {
-        $app = $this->app;
-        if(!isset($_SESSION["id"]) || empty($_SESSION["id"])) {
-            $app->redirect("/");
-        } else {
-            $userRepository = new UserRepository($app->db);
-            $this->userdata = $userRepository->findById($_SESSION["id"]);
-            if($this->userdata === false) {
-                $app->redirect("/");
-            }
-        }
-
-    }
 }

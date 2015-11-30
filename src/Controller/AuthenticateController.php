@@ -14,11 +14,21 @@ use PDO;
 
 class AuthenticateController extends BaseController
 {
+    protected $userdata;
+
     public function before()
     {
-        if (!isset($_SESSION['userId'])) {
-            $this->app->redirect('/');
+        $app = $this->app;
+        if(!isset($_SESSION["id"]) || empty($_SESSION["id"])) {
+            $app->redirect("/");
+        } else {
+            $userRepository = new UserRepository($app->db);
+            $this->userdata = $userRepository->findById($_SESSION["id"]);
+            if($this->userdata === false) {
+                $app->redirect("/");
+            }
         }
+
     }
 
     public function after()

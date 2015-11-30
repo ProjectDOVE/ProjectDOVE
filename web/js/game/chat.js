@@ -37,7 +37,12 @@ define(["jquery", "game/websocket"], function ($, ws) {
         ws.on("close", function(e){ console.log("connection closed", e);});
 
         ws.on("message", "json", function(e){
-            $("#chatMessages").append(e.json.user + ": " + e.json.message + "<br />");
+            if("user" in e.json) {
+                $("#chatMessages").append(e.json.user + ": " + e.json.message + "<br />");
+            } else {
+                $("#chatMessages").append("<i>"+e.json.message + "</i><br />");
+            }
+
             scrollToBottom();
         });
 

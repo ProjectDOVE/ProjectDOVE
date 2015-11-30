@@ -32,18 +32,12 @@ class WebSocketServer implements MessageComponentInterface
 
     }
 
-    public function sendToAll() {
-        $sentNum = 0;
-        $messages = ["Tick", "Tock", "A new GameLoop appeared!", "Something happened!"];
-
+    public function sendToAll($message) {
         foreach ($this->clients as $client) {
-            $client->send($messages[array_rand($messages, 1)]);
-            $sentNum += 1;
+            if(!is_null($this->clients[$client])) {
+                $client->send($message);
+            }
         }
-        if($sentNum > 0) {
-            echo "Sent some stuff to $sentNum clients\n";
-        }
-
     }
 
     public function onOpen(ConnectionInterface $conn)
@@ -75,6 +69,7 @@ class WebSocketServer implements MessageComponentInterface
                 } else {
                     echo "Authenticated user {$user->username} on connection {$from->resourceId}\n";
                     $this->clients[$from] = $user;
+                    $this->sendToAll(json_encode(Array("message" => "{$user->username} connected!")));
                 }
 
             }
@@ -94,6 +89,7 @@ class WebSocketServer implements MessageComponentInterface
     public function onClose(ConnectionInterface $conn)
     {
         // The connection is closed, remove it, as we can no longer send it messages
+        $this->sendToAll(json_encode(Array("message" => "{$this->clients[$conn]->username} has left.")));
         $this->clients->detach($conn);
 
         echo "Connection {$conn->resourceId} has disconnected\n";

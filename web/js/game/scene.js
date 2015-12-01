@@ -20,13 +20,12 @@ define(["jquery", "three"], function ($, Three) {
         scene = new Three.Scene();
         scene.add( new THREE.AmbientLight( 0xcccccc ) );
 
-    // scene.add( new THREE.AxisHelper( 100 ) );
         camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 
         renderer = new THREE.WebGLRenderer();
 
-        renderer.setClearColor( 0xbfd1e5 );
+        renderer.setClearColor( 0x263a48 );
         loader = new THREE.JSONLoader();
         submarine = null;
         textureLoader = new THREE.TextureLoader();
@@ -46,6 +45,7 @@ define(["jquery", "three"], function ($, Three) {
                     submarine.scale.set( 10, 10, 10 );
 
                     scene.add(submarine);
+
                     initialized = true;
                 });
             }
@@ -54,7 +54,7 @@ define(["jquery", "three"], function ($, Three) {
 
         gameDiv.append(renderer.domElement);
 
-        camera.position.z = 100;
+        camera.position.z = 90;
         camera.position.y = 10;
 
         render();
@@ -68,14 +68,22 @@ define(["jquery", "three"], function ($, Three) {
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
+    var lastframe = undefined;
 
-    var render = function () {
+    var render = function (time) {
+        if(lastframe === undefined) {
+            lastframe = time;
+        }
+        var delta = time - lastframe;
+
         requestAnimationFrame(render);
         if(initialized === false) {
             return;
         }
-        submarine.rotation.y += 0.001;
+        submarine.rotation.x += 0.25 * Math.PI * (delta / 1000); //45° per second
+
         renderer.render(scene, camera);
+        lastframe = time;
     };
 
     return {
